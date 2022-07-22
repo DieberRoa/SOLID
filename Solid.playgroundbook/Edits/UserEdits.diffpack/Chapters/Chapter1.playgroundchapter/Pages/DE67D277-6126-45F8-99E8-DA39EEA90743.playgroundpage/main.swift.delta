@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BaseFile</key>
+	<string>Chapters/Chapter1.playgroundchapter/Pages/Template.playgroundpage/main.swift</string>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>// 3.  Principio de Sustitución de Liskov
+// 3.1 Creamos un objeto generico
+
+struct Position {
+    
+    var x = 0
+    var y = 0
+    
+    init (_ x: Int,_ y: Int) {
+        self.x = x
+        self.y = y
+    }
+    
+}
+
+class MoveHandler {
+    
+    var position: Position
+    
+    init(x: Int, y: Int) {
+        self.position = Position(x,y)
+    }
+    
+    func move(toX: Int, toY: Int) {
+        // do move 
+        // set the last position
+        position.x = toX
+        position.y = toY
+    }
+}
+
+class LiveHandler {
+    
+    var lives = 0
+    var dead = false
+    
+    init(lives: Int) {
+        self.lives = lives
+    }
+    
+    func dye() {
+        lives = lives - 1
+        if (lives == 0) { dead = true }
+    }
+    
+    func isDead() -&gt; Bool {
+        return dead
+    }
+}
+
+class CollisionHandler {
+    
+    var ship : FlyObject 
+    var isCollision : Bool = false
+    
+    init(ship: FlyObject) {
+        self.ship = ship
+    }
+    
+    func collision() -&gt; Bool {
+        // collision logic
+        return isCollision
+    }
+    
+}
+
+// Objeto que vuela generico
+class FlyObject {
+    
+    let moveHandler : MoveHandler
+    let liveHandler : LiveHandler 
+    
+    init (moveHandler: MoveHandler, lives: Int) {
+        self.moveHandler = moveHandler
+        self.liveHandler = LiveHandler(lives: lives)
+    }
+    
+    func move(toX: Int, toY: Int) {
+        self.moveHandler.move(toX: toX, toY: toY)
+    }
+    
+    func dye(){
+        liveHandler.dye()
+    }
+    
+    func isDead() -&gt; Bool {
+        return liveHandler.isDead()
+    }
+    
+    func getLives() -&gt; Int {
+        return self.liveHandler.lives
+    }
+    
+    func getPosition() -&gt; Position {
+        return self.moveHandler.position
+    }
+    
+}
+
+// 3.2 Bala
+class Bullet : FlyObject {
+    
+    var velocity = 0
+    
+    init(moveHandler: MoveHandler) {
+        super.init(moveHandler: moveHandler, lives: 1)
+    }
+    
+    func setVelocity(velocity: Int) {
+        self.velocity = velocity
+    }
+    
+}
+
+// 3.3 Creamos una nave
+
+class ShotHandler {
+    
+    func shot() -&gt; Bullet {
+        return Bullet(moveHandler: MoveHandler(x: 0,y: 0))
+    }
+    
+}
+
+class Ship : FlyObject {
+    
+    var shotHandler : ShotHandler
+    
+    init (moveHandler: MoveHandler, lives: Int, shotHandler: ShotHandler) {
+        self.shotHandler = shotHandler
+        super.init(moveHandler: moveHandler, lives: lives)
+    }
+    
+    func shot() -&gt; Bullet {
+        shotHandler.shot()
+    }
+    
+}
+
+// 3.4 Creamos el Jugador
+class Player : Ship  {
+    
+    var collisionHandler : CollisionHandler?
+    
+    init(moveHandler: MoveHandler, shotHandler: ShotHandler) {
+        super.init(moveHandler: moveHandler, lives: 3, shotHandler: shotHandler)
+    }
+    
+    func collision() -&gt; Bool {
+        return ((collisionHandler?.collision()) != nil)
+    }
+}
+
+class Enemy : Ship {
+    
+    var collisionHandler : CollisionHandler?
+    
+    init(moveHandler: MoveHandler, shotHandler: ShotHandler) {
+        super.init(moveHandler: moveHandler, lives: 1, shotHandler: shotHandler)
+    }
+    
+    func collision() -&gt; Bool {
+        return ((collisionHandler?.collision()) != nil)
+    }
+}
+
+// 3.5 Sustitución de Liskov en los characters
+
+class Game {
+    
+    var player : Player?
+    var enemies : [Enemy] = []
+    var characters : [FlyObject] = []
+    
+    init() {        
+        self.player = Player(moveHandler: MoveHandler(x: 10, y: 10), shotHandler: ShotHandler())
+        self.player?.collisionHandler = CollisionHandler(ship: self.player!)
+        self.characters.append(self.player!)
+        createEnemies()
+    }
+    
+    func createEnemies() {
+        for enemiesCount in 1 ... 20 {
+            var newEnemy = Enemy(moveHandler: MoveHandler(x: 10, y: 10), shotHandler: ShotHandler())
+            newEnemy.collisionHandler = CollisionHandler(ship: newEnemy)
+            for bulletCoung in 1...2 {
+                self.characters.append(newEnemy.shot())
+            }
+            self.characters.append(newEnemy)
+            self.enemies.append(newEnemy)
+        }
+    }
+    
+    func showCharactersCount() -&gt; Int {
+        return self.characters.count
+    }
+    
+    func showCharactersLives() -&gt; [Int] {
+        var lives : [Int] = []
+        self.characters.forEach { character in
+            lives.append(character.liveHandler.lives)
+        }
+        return lives
+    }
+    
+    func showCharactersVelocity() -&gt; [Int] {
+        // violates principle
+        var velocities : [Int] = []
+        self.characters.forEach { character in
+            velocities.append(character.velocity)
+        }
+        return velocities
+    }
+    
+}
+
+let game = Game()
+print(game.showCharactersCount())
+print(game.showCharactersLives())
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 4670}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

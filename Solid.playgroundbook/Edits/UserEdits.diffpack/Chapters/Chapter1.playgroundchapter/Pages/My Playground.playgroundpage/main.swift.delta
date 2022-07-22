@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>// Principios Solid con ejemplos Swift
+
+// S: Single Responsability
+
+// 1. Esta clase de gestión de la nave tiene muchas responsabilidades
+
+class Ship {
+    
+    var lives = 3
+    var x = 0
+    var y = 0
+    
+    
+    func dye() {
+        lives = lives - 1
+    }
+    
+    func shot() {
+        // Shot
+    }
+    
+    func move(toX: Int, toY: Int) {
+        // moves from actual x,y to a toX, toY
+    }
+}
+
+// 1.1 Extracción de responsabilidadades
+
+// Manejador de las vidas
+class LiveHandler {
+    
+    var lives = 3
+    
+    init(lives : Int) {
+        self.lives = lives
+    }
+    
+    func dye() {
+        lives = lives - 1
+    }
+}
+
+// Manejador de los disparos
+class ShotHandler {
+    
+    func shot() {
+        // Shot
+    }
+    
+}
+
+// Coordenadas 
+struct Position {
+    
+    var x = 0
+    var y = 0
+    
+    init (_ x: Int,_ y: Int) {
+        self.x = x
+        self.y = y
+    }
+    
+}
+
+// Manejador del movimiento 
+class MoveHandler {
+    
+    var position: Position
+    
+    init(x: Int, y: Int) {
+        self.position = Position(x,y)
+    }
+    
+    func move(toX: Int, toY: Int) {
+        // do move 
+        // set the last position
+        position.x = toX
+        position.y = toY
+    }
+}
+
+// 
+class BestShip {
+    
+    let liveHandler: LiveHandler
+    let shotHandler : ShotHandler
+    let moveHandler : MoveHandler
+    
+    init (liveHandler: LiveHandler, shotHandler : ShotHandler, moveHandler : MoveHandler) {
+        self.liveHandler = liveHandler
+        self.shotHandler = shotHandler
+        self.moveHandler = moveHandler
+    }
+    
+    func getLives() -&gt; Int {
+        return self.liveHandler.lives
+    }
+    
+    func getPosition() -&gt; Position {
+        return self.moveHandler.position
+    }
+    
+    func dye() {
+        liveHandler.dye()
+    }
+    
+    func shot() {
+        shotHandler.shot()
+    }
+    
+    func move(toX: Int, toY: Int) {
+        moveHandler.move(toX: toX, toY: toY)
+    }
+    
+}
+
+// 2. Open / Close 
+
+
+// 2.1 Se agrega comportamiento de colision
+class CollisionableShip : BestShip {
+    
+    var isCollision : Bool = false
+    
+    func collision() -&gt; Bool {
+        // Crash with other object
+        return isCollision
+    }
+    
+}
+
+// 2.2 Single responsability , Clase de gestion de colision
+class CollisionHandler {
+    
+    var shipsInScene : [BestShip] = []
+    var ship : BestShip 
+    var isCollision : Bool = false
+    
+    init(ship: BestShip) {
+        self.ship = ship
+    }
+    
+    func collision() -&gt; Bool {
+        // collision logic
+        return isCollision
+    }
+    
+}
+
+// 2.3 IMplementación final
+class BestCollisionableShip : BestShip {
+    
+    var collisionHandler : CollisionHandler
+    
+    init(liveHandler: LiveHandler, shotHandler : ShotHandler, moveHandler : MoveHandler, collisionHandler: CollisionHandler) {
+        self.collisionHandler = collisionHandler
+        super.init(liveHandler: &lt;#T##LiveHandler#&gt;, shotHandler: &lt;#T##ShotHandler#&gt;, moveHandler: &lt;#T##MoveHandler#&gt;)
+    }
+    
+    func collision() -&gt; Bool {
+        return collisionHandler.collision()
+    }
+}
+
+
+
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 3051}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

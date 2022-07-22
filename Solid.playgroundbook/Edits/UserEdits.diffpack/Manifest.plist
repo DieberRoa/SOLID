@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BaseContentIdentifier</key>
+	<string>com.apple.playgrounds.blank</string>
+	<key>BaseContentVersion</key>
+	<string>1.0</string>
+	<key>ContentType</key>
+	<string>PlaygroundBookUserEdit</string>
+	<key>Diffs</key>
+	<dict>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/2CF9E21B-C9DF-43FB-B515-A0DEF4CE7096.playgroundpage/UserManifest.plist</key>
+		<string>Added</string>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/2CF9E21B-C9DF-43FB-B515-A0DEF4CE7096.playgroundpage/main.swift</key>
+		<string>Modified</string>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/898774AC-ADAC-4502-BFF2-21BB9C877342.playgroundpage/UserManifest.plist</key>
+		<string>Added</string>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/898774AC-ADAC-4502-BFF2-21BB9C877342.playgroundpage/main.swift</key>
+		<string>Modified</string>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/BEA96D17-A9B8-4BFE-BC66-62420D5E0C4C.playgroundpage/UserManifest.plist</key>
+		<string>Added</string>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/BEA96D17-A9B8-4BFE-BC66-62420D5E0C4C.playgroundpage/main.swift</key>
+		<string>Modified</string>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/DE67D277-6126-45F8-99E8-DA39EEA90743.playgroundpage/UserManifest.plist</key>
+		<string>Added</string>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/DE67D277-6126-45F8-99E8-DA39EEA90743.playgroundpage/main.swift</key>
+		<string>Modified</string>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/My Playground.playgroundpage/UserManifest.plist</key>
+		<string>Added</string>
+		<key>Chapters/Chapter1.playgroundchapter/Pages/My Playground.playgroundpage/main.swift</key>
+		<string>Modified</string>
+		<key>Chapters/Chapter1.playgroundchapter/UserManifest.plist</key>
+		<string>Added</string>
+		<key>UserModules/UserModule.playgroundmodule/Sources/SharedCode.swift</key>
+		<string>Removed</string>
+	</dict>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+	<key>UpdatedContentVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>

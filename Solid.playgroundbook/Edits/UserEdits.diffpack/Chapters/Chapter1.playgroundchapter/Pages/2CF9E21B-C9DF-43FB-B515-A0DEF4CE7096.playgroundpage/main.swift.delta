@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BaseFile</key>
+	<string>Chapters/Chapter1.playgroundchapter/Pages/Template.playgroundpage/main.swift</string>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>// 5.2 Ejemplo layers con Inversión de Dependencia
+
+// transversal
+struct Model {
+    struct Player {
+        var id = UUID() 
+        var nickName : String
+    }
+}
+
+
+// Data Layer
+
+protocol IPlayerRepository {
+    func get() -&gt; [Model.Player]
+}
+
+struct Data {
+    
+    class PlayerRepository: IPlayerRepository {
+        
+        func get() -&gt; [Model.Player] {
+            return getPlayers()
+        }
+        
+        private func getPlayers() -&gt; [Model.Player] {
+            var players : [Model.Player] = []
+            players.append(Model.Player(nickName: "CoolMan"))
+            players.append(Model.Player(nickName: "SeriouslyStuff1022"))
+            players.append(Model.Player(nickName: "ThornSkillex45"))
+            players.append(Model.Player(nickName: "SrPensionao"))
+            players.append(Model.Player(nickName: "DaromDalashim"))
+            players.append(Model.Player(nickName: "ItzWatEver90"))
+            players.append(Model.Player(nickName: "ZMilof332"))
+            players.append(Model.Player(nickName: "Esperpento43531"))
+            players.append(Model.Player(nickName: "HereYourDead102"))
+            players.append(Model.Player(nickName: "AnotherGuyProgrammer"))
+            return players
+        }
+    }
+    
+}
+
+// Bussiness Layer
+
+protocol IPlayersManagement {
+    func getPlayers() -&gt; [Model.Player]
+}
+
+struct BussinessLogic {
+    
+    class PlayersManagement: IPlayersManagement {
+        
+        private var repository : IPlayerRepository
+        
+        init(repository: IPlayerRepository) {
+            self.repository = repository
+        }
+        
+        func getPlayers() -&gt; [Model.Player] {
+            return sort()
+        }
+        
+        private func sort() -&gt; [Model.Player] {
+            var players = repository.get()
+            players.sort {
+                $0.nickName &lt; $1.nickName
+            }
+            return players
+        }
+        
+    }
+    
+}
+
+// Presentation Layer
+import SwiftUI
+
+struct Presentation {
+    
+    struct PlayersView: View {
+        
+        private var playersManagement : IPlayersManagement
+        private var players : [Model.Player] = []
+        
+        init(playersManagement: IPlayersManagement) {
+            self.playersManagement = playersManagement
+            players = self.playersManagement.getPlayers()
+        }
+        
+        var body: some View {
+            VStack {
+                List {
+                    ForEach(players, id: \.id) { player in
+                        HStack {
+                            Image(systemName: "star.circle").foregroundColor(.green)
+                            VStack {
+                                Text(player.nickName).bold()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+}
+
+// Ejecucion
+
+import PlaygroundSupport
+
+let view = Presentation.PlayersView(
+    playersManagement: BussinessLogic.PlayersManagement(
+        repository: Data.PlayerRepository()))
+
+PlaygroundPage.current.setLiveView(view)
+</string>
+			<key>ModifiedRange</key>
+			<string>{0, 3038}</string>
+			<key>OriginalContent</key>
+			<string>
+</string>
+			<key>OriginalRange</key>
+			<string>{0, 1}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

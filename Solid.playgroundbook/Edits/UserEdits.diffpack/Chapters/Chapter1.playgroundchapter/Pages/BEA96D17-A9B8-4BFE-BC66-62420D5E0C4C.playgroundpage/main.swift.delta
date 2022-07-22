@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BaseFile</key>
+	<string>Chapters/Chapter1.playgroundchapter/Pages/Template.playgroundpage/main.swift</string>
+	<key>Diffs</key>
+	<array>
+		<dict>
+			<key>ModifiedContent</key>
+			<string>
+// 4.  Segregación de dependencias
+
+
+struct Position {
+    
+    var x = 0
+    var y = 0
+    
+    init (_ x: Int,_ y: Int) {
+        self.x = x
+        self.y = y
+    }
+    
+}
+
+class MoveHandler {
+    
+    var position: Position
+    
+    init(x: Int, y: Int) {
+        self.position = Position(x,y)
+    }
+    
+    func move(toX: Int, toY: Int) {
+        // do move 
+        // set the last position
+        position.x = toX
+        position.y = toY
+    }
+}
+
+class LiveHandler {
+    
+    var lives = 0
+    var dead = false
+    
+    init(lives: Int) {
+        self.lives = lives
+    }
+    
+    func dye() {
+        lives = lives - 1
+        if (lives == 0) { dead = true }
+    }
+    
+    func isDead() -&gt; Bool {
+        return dead
+    }
+}
+
+
+// 4.1 Objeto que vuela generico
+class FlyObject {
+    
+    let moveHandler : MoveHandler
+    let liveHandler : LiveHandler 
+    
+    init (moveHandler: MoveHandler, lives: Int) {
+        self.moveHandler = moveHandler
+        self.liveHandler = LiveHandler(lives: lives)
+    }
+    
+    func move(toX: Int, toY: Int) {
+        self.moveHandler.move(toX: toX, toY: toY)
+    }
+    
+    func dye(){
+        liveHandler.dye()
+    }
+    
+    func isDead() -&gt; Bool {
+        return liveHandler.isDead()
+    }
+    
+}
+
+// 4.2 Bala
+
+protocol Velocitable {
+    func setDirectionVelocity(direction: Double, velocity: Int)
+}
+
+class VelocityHandler {
+    
+    var velocity = 0
+    var direction = 0.0
+    
+    init(direction: Double,velocity: Int) {
+        self.velocity = velocity
+        self.direction = direction
+    }
+    
+}
+
+class Bullet : FlyObject, Velocitable {
+
+    var velocityHandler : VelocityHandler
+    
+    init(moveHandler: MoveHandler, velocityHandler : VelocityHandler) {
+        self.velocityHandler = velocityHandler
+        super.init(moveHandler: moveHandler, lives: 1)
+    }
+    
+    func setDirectionVelocity(direction: Double, velocity: Int) {
+        self.velocityHandler.velocity = velocity
+        self.velocityHandler.direction = direction
+    }
+}
+
+// 4.3 Creamos una nave
+
+protocol Shotterable {
+    func shot() -&gt; Bullet
+}
+
+class ShotHandler {
+    
+    func shot() -&gt; Bullet {
+        return Bullet(moveHandler: MoveHandler(x: 0,y: 0), velocityHandler: VelocityHandler(direction: 0.0, velocity: 0))
+    }
+    
+}
+
+class Ship : FlyObject, Shotterable {
+    
+    var shotHandler : ShotHandler
+    
+    init (moveHandler: MoveHandler, lives: Int, shotHandler: ShotHandler) {
+        self.shotHandler = shotHandler
+        super.init(moveHandler: moveHandler, lives: lives)
+    }
+    
+    func shot() -&gt; Bullet {
+        shotHandler.shot()
+    }
+    
+}
+
+// 4.4 Creamos el Jugador
+
+protocol Collisionable {
+    func collision() -&gt; Bool
+}
+
+class CollisionHandler {
+    
+    var ship : FlyObject 
+    var isCollision : Bool = false
+    
+    init(ship: FlyObject) {
+        self.ship = ship
+    }
+    
+    func collision() -&gt; Bool {
+        // collision logic
+        return isCollision
+    }
+    
+}
+
+class Player : Ship, Collisionable  {
+    
+    var collisionHandler : CollisionHandler?
+    
+    init(moveHandler: MoveHandler, shotHandler: ShotHandler) {
+        super.init(moveHandler: moveHandler, lives: 3, shotHandler: shotHandler)
+    }
+    
+    func collision() -&gt; Bool {
+        return ((collisionHandler?.collision()) != nil)
+    }
+}
+
+// 4.5 Enemigo
+class Enemy : Ship, Collisionable  {
+    
+    var collisionHandler : CollisionHandler?
+    
+    init(moveHandler: MoveHandler, shotHandler: ShotHandler) {
+        super.init(moveHandler: moveHandler, lives: 1, shotHandler: shotHandler)
+    }
+    
+    func collision() -&gt; Bool {
+        return ((collisionHandler?.collision()) != nil)
+    }
+}
+
+// 4.6 Implementación 
+
+class Game {
+    
+    var player : Player?
+    var enemies : [Enemy] = []
+    var characters : [FlyObject] = []
+    
+    init() {        
+        self.player = Player(moveHandler: MoveHandler(x: 10, y: 10), shotHandler: ShotHandler())
+        self.player?.collisionHandler = CollisionHandler(ship: self.player!)
+        self.characters.append(self.player!)
+        createEnemies()
+    }
+    
+    func createEnemies() {
+        for enemiesCount in 1 ... 20 {
+            var newEnemy = Enemy(moveHandler: MoveHandler(x: 10, y: 10), shotHandler: ShotHandler())
+            newEnemy.collisionHandler = CollisionHandler(ship: newEnemy)
+            for bulletCoung in 1...2 {
+                self.characters.append(newEnemy.shot())
+            }
+            self.characters.append(newEnemy)
+            self.enemies.append(newEnemy)
+        }
+    }
+    
+    func showCharactersCount() -&gt; Int {
+        return self.characters.count
+    }
+    
+    func showCharactersLives() -&gt; [Int] {
+        var lives : [Int] = []
+        self.characters.forEach { character in
+            lives.append(character.liveHandler.lives)
+        }
+        return lives
+    }
+    
+    func showCharactersVelocity() -&gt; [Int] {
+        // fix violates liskov principle
+        var velocities : [Int] = []
+        self.characters.forEach { character in
+            if let isBullet = character as? Bullet {
+                velocities.append((character as! Bullet).velocityHandler.velocity)
+            }
+        }
+        return velocities
+    }
+    
+}
+
+let game = Game()
+print(game.showCharactersCount())
+print(game.showCharactersLives())
+</string>
+			<key>ModifiedRange</key>
+			<string>{1, 5286}</string>
+			<key>OriginalContent</key>
+			<string></string>
+			<key>OriginalRange</key>
+			<string>{1, 0}</string>
+		</dict>
+	</array>
+	<key>FormatVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>
