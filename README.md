@@ -283,7 +283,7 @@ En esta implementación:
 
 Se le da a la clase ```Ship``` el comportamiento ```Shoterable``` para que pueda disparar y a la clase ```Bullet``` el comportamiento ```Velocitable``` para que pueda manejar la velocidad, la idea es que aunque ```Bullet``` y ```Ship``` sean hijas de ```FlyObject``` puedan tener comportamientos diferentes si ```FlyObject``` tuviese ```Shoterable``` y ```Velocitable``` la clase ```Ship``` tendría una implementación vacía o inútil del método ```setDirectionVelocity(direction: double, velocity: Int)``` al igual que ```Bullet``` tendría un implementación vacía o inútil del método ```shot()```.
 
-Por tamaño no se coloca el código completo se puede ver en la página **SOLID4** de acá: [SOLID Swift Playgroud](https://drive.google.com/drive/folders/1nvz949nvhndFWOZ_V-VFdbhaL45WbwDF?usp=sharing).
+Ver en la página **SOLID4** del Playground.
 
 ---
 
@@ -297,7 +297,7 @@ En este ejemplo tenemos una aplicación tipica en capas, en este caso la capa su
 
 ```PlayersManagement``` depende de la instancia de ```PlayerRepository```, así como la capa de presentación depende de la instacia directa de la lógica del negocio. 
 
-Para ver la implementación ver la página **SOLID5.1** de [SOLID Swift Playgroud](https://drive.google.com/drive/folders/1nvz949nvhndFWOZ_V-VFdbhaL45WbwDF?usp=sharing).
+Ver en la página **SOLID5.1** del Playground.
 
 ``` Swift
 // transversal
@@ -394,7 +394,7 @@ Para evitar esto la comunicación entre capas debe depender de abstracciones y n
 
 La capa de ```BussinessLogic``` depende del contrato ```IPlayersRepository``` y no de la instancia de ```PlayerRepository``` al igual que la capa de presentación depende del contrato establecido para la lógica del negocio.
 
-Para ver la implementación ver la página **SOLID5.2** de [SOLID Swift Playgroud](https://drive.google.com/drive/folders/1nvz949nvhndFWOZ_V-VFdbhaL45WbwDF?usp=sharing).
+Ver en la página **SOLID5.2** del Playground.
 
 ```Swift
 // transversal
