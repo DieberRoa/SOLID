@@ -526,5 +526,5 @@ Este texto también se encuentra en: [Alejandría Pragma](https://alejandria.pra
 Cualquier sugerencia se puede hacer en los canales del Chapter:
 
 - [Workplace](https://pragma.workplace.com/groups/pragma.movilidad)
-- [Foros](https://comunidad.pragma.com.co/c/mobile/16)
+- [Foros](https://comunidad.pragma.com.co/t/principios-solid-con-swift-playground/918)
 
