@@ -211,9 +211,7 @@ Se crean las clases de Ship y Bullet que heredan de FlyObject y Player y Enemy q
 
 ![Ship Model 5](https://drive.google.com/uc?id=10HNAmgE4zQv_HiLz4c-bhueexWtdpPL0 )
 
-Por tamaño no se coloca el código completo se puede ver en la página **SOLID3** de acá: [SOLID Swift Playgroud](https://drive.google.com/drive/folders/1nvz949nvhndFWOZ_V-VFdbhaL45WbwDF?usp=sharing).
-
-Pero si vamos a mirar la clase Game: 
+Ver en la página **SOLID3** del Playground él código completo, por ahora se mira la clase Game: 
 
 ``` Swift
 class Game {
