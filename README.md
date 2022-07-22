@@ -519,12 +519,11 @@ Es importante conocer los principios SOLID para poder continuar con las implemen
 En estas fuentes se encuentra el código y el texto:
 
 - GitLab Pragma: [Chapter Mobile - Solid](https://gitlab.com/chapter-mobile/comunidad-ios/playgrounds/solid) (hay que pedir acceso, también se puede hacer un fork)
-- Drive: [Solid.PlaygroundBook](https://drive.google.com/drive/folders/1vX_uIkA0LUCeqbShbETUa5qRRhsj0vGm?usp=sharing) (se puede descargar pero no actualizar) 
 - [Mi GitHub Personal](https://github.com/DieberRoa/SOLID)
 
 Este texto también se encuentra en: [Alejandría Pragma](https://alejandria.pragma.com.co/books/principios-solid-con-swift-playgrounds)
 
-Cualquier sugerencia puede hacerla en los canales del Chapter:
+Cualquier sugerencia se puede hacer en los canales del Chapter:
 
 - [Workplace](https://pragma.workplace.com/groups/pragma.movilidad)
 - [Foros](https://comunidad.pragma.com.co/c/mobile/16)
